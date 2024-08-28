@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lista de Medicamentos</title>
+</head>
+
+<body>
+  <h1>Medicamentos Cadastrados</h1>
+  <ul id="medicamentos-lista">
+
+  </ul>
+
+  <form id="formulario-medicamento">
+    <input type="text" id="input-medicamento" placeholder="Nome do medicamento" required>
+    <button type="submit">Adicionar Medicamento</button>
+  </form>
+
+  <script>
+
+    function atualizarLista() {
+
+      const medicamentos = JSON.parse(localStorage.getItem('medicamentos')) || [];
+
+      // Seleciona a lista
+      const lista = document.getElementById('medicamentos-lista');
+
+
+      lista.innerHTML = '';
+
+
+      medicamentos.forEach(medicamento => {
+        const item = document.createElement('li');
+        item.textContent = medicamento;
+        lista.appendChild(item);
+      });
+    }
+
+
+    function adicionarMedicamento(medicamento) {
+      // Recupera a lista de medicamentos do localStorage
+      const medicamentos = JSON.parse(localStorage.getItem('medicamentos')) || [];
+
+
+      medicamentos.push(medicamento);
+
+
+      localStorage.setItem('medicamentos', JSON.stringify(medicamentos));
+    }
+
+
+    document.getElementById('formulario-medicamento').addEventListener('submit', function (event) {
+      event.preventDefault();
+
+
+      const inputMedicamento = document.getElementById('input-medicamento');
+      const medicamento = inputMedicamento.value.trim();
+
+      if (medicamento) {
+        adicionarMedicamento(medicamento);
+        atualizarLista();
+        inputMedicamento.value = '';
+      }
+    });
+    atualizarLista();
+  </script>
+</body>
+
+</html>
